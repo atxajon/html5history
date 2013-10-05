@@ -1,0 +1,58 @@
+body {
+  font-family: Georgia;
+  width: 700px;
+  margin: 0 auto;
+}
+nav {
+  margin-bottom: 30px;
+}
+nav li {
+  list-style: none;
+  float:left;
+  margin-right: 10px;
+}
+a {
+  color:#0090D2;
+}
+#wrapper {
+  border: 1px solid #CCCCCC;
+  margin: 0 auto;
+  width: 700px;
+  clear: both;
+  min-height: 200px;
+}
+#content {
+  padding: 10px;
+  float: left;
+}
+#photo {
+  float: right;
+}
+#spinner {
+  display: none;
+  position: relative;
+  top: 120px;
+  left: 440px;
+  background: url("spinner.gif") no-repeat;
+  width: 50px;
+  height: 50px;
+}
+.loading {
+  opacity: 0.2;
+}
+.clearfix:after {
+  content: ".";
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+}
+.clearfix {
+  display: inline-block;
+}
+* html .clearfix {
+  height: 1%;
+} /* Hides from IE-mac \*/
+.clearfix {
+  display: block;
+}
