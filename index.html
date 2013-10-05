@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>test</title>
+  <style>
+    #content {
+      background:red;
+      padding: 10px;
+      width: 25%;
+    }
+    #spinner {
+      display: none;
+      position: relative;
+      top: 120px;
+      left: 88px;
+      background: url("spinner.gif") no-repeat;
+      width: 50px;
+      height: 50px;
+    }
+    .loading {
+      opacity: 0.2;
+    }
+  </style>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+  <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.8.3.min.js"><\/script>')</script>
+  <script src="history.js"></script>
+</head>
+<body>
+  <h1>Page 1</h1>
+  <nav>
+    <ul class="cf">
+      <li><a href="index.html">Page 1</a></li>
+      <li><a href="page2.html">Page 2</a></li>
+      <li><a href="page3.html">Page 3.</a></li>
+    </ul>
+  </nav>
+  <div id="spinner"></div>
+  <div id="wrapper">
+    <div id="content">Content for page 1</div>
+    <img src="http://placekitten.com/200/200" alt="A heartbreakingly cute kitten!" id="photo">
+  </div>
+
+  <script>
+    var contentEl = document.getElementById('content');
+    var photoEl = document.getElementById('photo');
+    var linkEls = document.getElementsByTagName('a');
+
+    // Switcheroo!
+    function updateContent(data) {
+      if (data == null)
+        return;
+      contentEl.textContent = data.content;
+      photoEl.src = data.photo;
+    }
+
+    function clickHandler(event) {
+      $('#wrapper').addClass("loading");
+      $('#spinner').show();
+      var page = event.target.getAttribute('href').split('/').pop();
+
+      $.ajax({
+          type:"POST",
+          url: page,
+          success: function(data){
+              //Create jQuery object from the response HTML.
+              var $response=$(data);
+
+              //Query the jQuery object for the values
+              var textContent = $response.filter('#content').text();
+              var photoSrc = $response.filter('#photo').attr('src');
+              var dataObj = {
+                content : textContent,
+                photo : photoSrc
+              };
+
+              var data = dataObj || null;
+
+              updateContent(data);
+
+              // Add an item to the history log
+              history.pushState(data, event.target.textContent, event.target.href);
+              $('#wrapper').removeClass("loading");
+              $('#spinner').hide();
+          }//success end
+
+      });//ajax end
+
+      return event.preventDefault();
+    }//clickHandler
+
+    // Attach event listeners
+    for (var i = 0, l = linkEls.length; i < l; i++) {
+      linkEls[i].addEventListener('click', clickHandler, true);
+    }
+
+  </script>
+</body>
+</html>
