@@ -1,13 +1,17 @@
 var contentEl = document.getElementById('content');
 var photoEl = document.getElementById('photo');
+var titleEl = document.getElementById('page-title');
 var linkEls = document.getElementsByTagName('a');
 
 // Switcheroo!
 function updateContent(data) {
   if (data == null)
     return;
+
+  console.log("data: ",data);
   contentEl.textContent = data.content;
   photoEl.src = data.photo;
+  titleEl.textContent = data.title;
 }
 
 function clickHandler(event) {
@@ -23,9 +27,11 @@ function clickHandler(event) {
           //Query the jQuery object for the values
           var textContent = $response.filter('#content').text();
           var photoSrc = $response.filter('#photo').attr('src');
+          var pageTitle = $response.filter('#page-title').text();
           var dataObj = {
             content : textContent,
-            photo : photoSrc
+            photo : photoSrc,
+            title : pageTitle
           };
 
           var data = dataObj || null;
